@@ -1,0 +1,19 @@
+#!/bin/sh
+
+BUILD_DIR=$1
+BP_DIR=$(cd $(dirname "$0"); cd ..; pwd)
+
+# Define the version and download URL for MySQL
+MYSQL_VERSION="8.0.27"
+MYSQL_URL="https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-${MYSQL_VERSION}-linux-glibc2.12-x86_64.tar.xz"
+
+# Create a directory to hold the MySQL binary
+mkdir -p $BUILD_DIR/.heroku/vendor/mysql
+
+# Download and extract the MySQL binary into the vendor directory
+curl -sSL $MYSQL_URL | tar xJ -C $BUILD_DIR/.heroku/vendor/mysql --strip-components 1
+
+# Add the MySQL binary path to the PATH
+PROFILE_PATH="$BUILD_DIR/.profile.d/mysql.sh"
+mkdir -p $(dirname $PROFILE_PATH)
+echo 'export PATH="$PATH:$HOME/.heroku/vendor/mysql/bin"' > $PROFILE_PATH

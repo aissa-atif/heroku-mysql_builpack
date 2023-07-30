@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# always apply this buildpack
+echo "MySQL Buildpack"
+exit 0
